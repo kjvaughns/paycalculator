@@ -111,6 +111,119 @@
                 console.error('Error fetching data:', error);
             }
         };
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KJ Vaughns - Payment Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            color: #333;
+        }
+        header {
+            background-color: #000;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #fff;
+        }
+        section {
+            padding: 40px 20px;
+            margin: 20px;
+        }
+        .data-section {
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+            margin-bottom: 40px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+        .editable {
+            background-color: #e0f7e0;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #000;
+            color: #fff;
+        }
+        .note {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>KJ Vaughns</h1>
+        <p>Entrepreneur | Content Creator | Business Guide Author</p>
+    </header>
+    <nav>
+        <a href="#agent">Agent Data</a>
+        <a href="#sa">SA Data</a>
+        <a href="#ga">GA Data</a>
+        <a href="#mga">MGA Data</a>
+    </nav>
+    <div class="note">*THESE ARE PROJECTED AND TENTATIVE NUMBERS, NOT 100% ACCURATE</div>
+    <section id="agent" class="data-section">
+        <h2>Agent Data</h2>
+        <table id="agent-table"></table>
+    </section>
+    <section id="sa" class="data-section">
+        <h2>SA Data</h2>
+        <table id="sa-table"></table>
+    </section>
+    <section id="ga" class="data-section">
+        <h2>GA Data</h2>
+        <table id="ga-table"></table>
+    </section>
+    <section id="mga" class="data-section">
+        <h2>MGA Data</h2>
+        <table id="mga-table"></table>
+    </section>
+    <footer>
+        <p>&copy; 2024 KJ Vaughns. All rights reserved.</p>
+    </footer>
+    <script>
+        const fetchData = async (url, tableId) => {
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                createTable(tableId, data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
 
         const createTable = (tableId, data) => {
             const table = document.getElementById(tableId);
@@ -130,7 +243,7 @@
                     td.textContent = row[header];
 
                     // Make specific cells editable
-                    if ((header === 'C' && (rowIndex === 3 || rowIndex === 11 || rowIndex === 24 || rowIndex === 25))) {
+                    if ((rowIndex === 3 && colIndex === 2) || (rowIndex === 11 && colIndex === 2) || (rowIndex === 24 && colIndex === 2) || (rowIndex === 25 && colIndex === 2)) {
                         td.contentEditable = true;
                         td.classList.add('editable');
                         td.addEventListener('input', () => updateCalculations(table));
@@ -147,32 +260,40 @@
 
             const getValue = (row, col) => parseFloat(rows[row].cells[col].innerText) || 0;
 
-            const C4 = getValue(4, 2);
-            const C5 = getValue(5, 2);
-            const C6 = getValue(6, 2);
-            const C7 = getValue(7, 2);
-            const C8 = getValue(8, 2);
-            const C12 = getValue(12, 2);
-            const C13 = getValue(13, 2);
-            const C14 = getValue(14, 2);
-            const C15 = getValue(15, 2);
-            const C16 = getValue(16, 2);
-            const C25 = getValue(25, 2);
-            const C26 = getValue(26, 2);
+            const C4 = getValue(3, 2);
+            const C12 = getValue(11, 2);
+            const C25 = getValue(24, 2);
+            const C26 = getValue(25, 2);
+            const C5 = getValue(4, 2);
+            const C6 = getValue(5, 2);
+            const C7 = getValue(6, 2);
+            const C8 = getValue(7, 2);
+            const C13 = getValue(12, 2);
+            const C14 = getValue(13, 2);
+            const C15 = getValue(14, 2);
+            const C16 = getValue(15, 2);
 
-            rows[4].cells[5].innerText = (C4 * C5 * 0.65).toFixed(2);
-            rows[5].cells[5].innerText = (C4 ** C5 ** C6).toFixed(2);
-            rows[6].cells[5].innerText = (C4 * C7).toFixed(2);
-            rows[7].cells[5].innerText = (parseFloat(rows[4].cells[5].innerText) + parseFloat(rows[5].cells[5].innerText) + parseFloat(rows[6].cells[5].innerText)).toFixed(2);
-            rows[4].cells[8].innerText = (C4 ** C8 ** 10).toFixed(2);
-            rows[5].cells[8].innerText = (parseFloat(rows[4].cells[5].innerText) + parseFloat(rows[5].cells[5].innerText) + parseFloat(rows[6].cells[5].innerText) + parseFloat(rows[4].cells[8].innerText)).toFixed(2);
-            rows[6].cells[8].innerText = (parseFloat(rows[5].cells[8].innerText) / C4).toFixed(2);
-            rows[4].cells[9].innerText = (C4 * C8 * 20).toFixed(2);
-            rows[5].cells[9].innerText = (parseFloat(rows[4].cells[5].innerText) + parseFloat(rows[5].cells[5].innerText) + parseFloat(rows[6].cells[5].innerText) + parseFloat(rows[4].cells[9].innerText)).toFixed(2);
-            rows[6].cells[9].innerText = (parseFloat(rows[5].cells[9].innerText) / C4).toFixed(2);
-            rows[4].cells[11].innerText = (parseFloat(rows[5].cells[8].innerText) / 10).toFixed(2);
-            rows[4].cells[12].innerText = (parseFloat(rows[4].cells[11].innerText) / 12).toFixed(2);
-        };
+            // Perform calculations
+            rows[3].cells[5].innerText = (C4 * C5 * 0.65).toFixed(2);
+            rows[4].cells[5].innerText = (C4 ** C5 ** C6).toFixed(2);
+            rows[5].cells[5].innerText = (C4 * C7).toFixed(2);
+            rows[6].cells[5].innerText = (parseFloat(rows[3].cells[5].innerText) + parseFloat(rows[4].cells[5].innerText) + parseFloat(rows[5].cells[5].innerText)).toFixed(2);
+            rows[3].cells[8].innerText = (C4 ** C8 ** 10).toFixed(2);
+            rows[4].cells[8].innerText = (parseFloat(rows[3].cells[5].innerText) + parseFloat(rows[4].cells[5].innerText) + parseFloat(rows[5].cells[5].innerText) + parseFloat(rows[3].cells[8].innerText)).toFixed(2);
+            rows[5].cells[8].innerText = (parseFloat(rows[4].cells[8].innerText) / C4).toFixed(2);
+            rows[3].cells[9].innerText = (C4 * C8 * 20).toFixed(2);
+            rows[4].cells[9].innerText = (parseFloat(rows[3].cells[5].innerText) + parseFloat(rows[4].cells[5].innerText) + parseFloat(rows[5].cells[5].innerText) + parseFloat(rows[3].cells[9].innerText)).toFixed(2);
+            rows[5].cells[9].innerText = (parseFloat(rows[4].cells[9].innerText) / C4).toFixed(2);
+            rows[3].cells[11].innerText = (parseFloat(rows[4].cells[8].innerText) / 10).toFixed(2);
+            rows[3].cells[12].innerText = (parseFloat(rows[3].cells[11].innerText) / 12).toFixed(2);
+
+            rows[11].cells[5].innerText = (C12 ** C13 ** 0.65).toFixed(2);
+            rows[12].cells[5].innerText = (C12 ** C13 ** C14).toFixed(2);
+            rows[13].cells[5].innerText = (C12 * C15 / 2).toFixed(2);
+            rows[18].cells[5].innerText = (parseFloat(rows[3].cells[5].innerText) + parseFloat(rows[11].cells[5].innerText)).toFixed(2);
+            rows[19].cells[5].innerText = (parseFloat(rows[4].cells[5].innerText) + parseFloat(rows[12].cells[5].innerText)).toFixed(2);
+            rows[20].cells[5].innerText = (parseFloat(rows[5].cells[5].innerText) + parseFloat(rows[13].cells[5].innerText)).toFixed(2);
+            rows[21].cells[5].innerText = (parseFloat(rows[18].cells[5].innerText) + parseFloat(rows[19].cells[5].inner
 
         // Fetch data for each table
         fetchData('agent_data.json', 'agent-table');
