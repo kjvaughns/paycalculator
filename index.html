@@ -102,26 +102,23 @@
         <p>&copy; 2024 KJ Vaughns. All rights reserved.</p>
     </footer>
     <script>
-        // Placeholder data for demonstration
-        const agentData = [
-            { A: 10, B: 20, C: 30, D: 40, E: 50, F: "", G: "", H: "", I: "", J: "" },
-            { A: 15, B: 25, C: 35, D: 45, E: 55, F: "", G: "", H: "", I: "", J: "" },
-            { A: 20, B: 30, C: 40, D: 50, E: 60, F: "", G: "", H: "", I: "", J: "" },
-            { A: 25, B: 35, C: 45, D: 55, E: 65, F: "", G: "", H: "", I: "", J: "" }
-        ];
+        const fetchData = async (url, tableId) => {
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                createTable(tableId, data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
 
-        // Add more data structures for SA, GA, and MGA if needed
-        const saData = agentData; // Example placeholder
-        const gaData = agentData; // Example placeholder
-        const mgaData = agentData; // Example placeholder
-
-        function createTable(tableId, data) {
+        const createTable = (tableId, data) => {
             const table = document.getElementById(tableId);
             const headers = Object.keys(data[0]);
             const headerRow = document.createElement('tr');
             headers.forEach(header => {
                 const th = document.createElement('th');
-                th.textContent = header;
+                th.textContent = header !== "Unnamed: 0" ? header : "";
                 headerRow.appendChild(th);
             });
             table.appendChild(headerRow);
@@ -133,36 +130,36 @@
                     td.textContent = row[header];
 
                     // Make specific cells editable
-                    if ((header === 'C' && (rowIndex === 2 || rowIndex === 10 || rowIndex === 23 || rowIndex === 24))) {
+                    if ((header === 'C' && (rowIndex === 3 || rowIndex === 11 || rowIndex === 24 || rowIndex === 25))) {
                         td.contentEditable = true;
                         td.classList.add('editable');
-                        td.addEventListener('input', () => updateCalculations(table, rowIndex, colIndex));
+                        td.addEventListener('input', () => updateCalculations(table));
                     }
 
                     tr.appendChild(td);
                 });
                 table.appendChild(tr);
             });
-        }
+        };
 
-        function updateCalculations(table, rowIndex, colIndex) {
+        const updateCalculations = (table) => {
             const rows = table.rows;
 
-            // Extract cell values for calculations
-            const C4 = parseFloat(rows[4].cells[2].innerText) || 0;
-            const C5 = parseFloat(rows[5].cells[2].innerText) || 0;
-            const C6 = parseFloat(rows[6].cells[2].innerText) || 0;
-            const C7 = parseFloat(rows[7].cells[2].innerText) || 0;
-            const C8 = parseFloat(rows[8].cells[2].innerText) || 0;
-            const C12 = parseFloat(rows[12].cells[2].innerText) || 0;
-            const C13 = parseFloat(rows[13].cells[2].innerText) || 0;
-            const C14 = parseFloat(rows[14].cells[2].innerText) || 0;
-            const C15 = parseFloat(rows[15].cells[2].innerText) || 0;
-            const C16 = parseFloat(rows[16].cells[2].innerText) || 0;
-            const C25 = parseFloat(rows[25].cells[2].innerText) || 0;
-            const C26 = parseFloat(rows[26].cells[2].innerText) || 0;
+            const getValue = (row, col) => parseFloat(rows[row].cells[col].innerText) || 0;
 
-            // Perform calculations
+            const C4 = getValue(4, 2);
+            const C5 = getValue(5, 2);
+            const C6 = getValue(6, 2);
+            const C7 = getValue(7, 2);
+            const C8 = getValue(8, 2);
+            const C12 = getValue(12, 2);
+            const C13 = getValue(13, 2);
+            const C14 = getValue(14, 2);
+            const C15 = getValue(15, 2);
+            const C16 = getValue(16, 2);
+            const C25 = getValue(25, 2);
+            const C26 = getValue(26, 2);
+
             rows[4].cells[5].innerText = (C4 * C5 * 0.65).toFixed(2);
             rows[5].cells[5].innerText = (C4 ** C5 ** C6).toFixed(2);
             rows[6].cells[5].innerText = (C4 * C7).toFixed(2);
@@ -175,4 +172,13 @@
             rows[6].cells[9].innerText = (parseFloat(rows[5].cells[9].innerText) / C4).toFixed(2);
             rows[4].cells[11].innerText = (parseFloat(rows[5].cells[8].innerText) / 10).toFixed(2);
             rows[4].cells[12].innerText = (parseFloat(rows[4].cells[11].innerText) / 12).toFixed(2);
-            rows[
+        };
+
+        // Fetch data for each table
+        fetchData('agent_data.json', 'agent-table');
+        fetchData('sa_data.json', 'sa-table');
+        fetchData('ga_data.json', 'ga-table');
+        fetchData('mga_data.json', 'mga-table');
+    </script>
+</body>
+</html>
