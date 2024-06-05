@@ -37,6 +37,7 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow-x: auto;
+            margin-bottom: 40px;
         }
         table {
             width: 100%;
@@ -61,6 +62,12 @@
             background-color: #000;
             color: #fff;
         }
+        .note {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
@@ -74,6 +81,7 @@
         <a href="#ga">GA Data</a>
         <a href="#mga">MGA Data</a>
     </nav>
+    <div class="note">*THESE ARE PROJECTED AND TENTATIVE NUMBERS, NOT 100% ACCURATE</div>
     <section id="agent" class="data-section">
         <h2>Agent Data</h2>
         <table id="agent-table"></table>
@@ -116,7 +124,7 @@
                             td.textContent = row[header];
 
                             // Make specific cells editable
-                            if (['ALP', '1', '2'].includes(header)) {
+                            if ((rowIndex === 2 && colIndex === 2) || (rowIndex === 10 && colIndex === 2) || (rowIndex === 23 && colIndex === 2) || (rowIndex === 24 && colIndex === 2)) {
                                 td.contentEditable = true;
                                 td.classList.add('editable');
                             }
@@ -137,4 +145,3 @@
     </script>
 </body>
 </html>
-
