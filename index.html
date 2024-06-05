@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KJ Vaughns - Data-Driven Webpage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            color: #333;
+        }
+        header {
+            background-color: #000;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #fff;
+        }
+        section {
+            padding: 40px 20px;
+            margin: 20px;
+        }
+        .data-section {
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #000;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>KJ Vaughns</h1>
+        <p>Entrepreneur | Content Creator | Business Guide Author</p>
+    </header>
+    <nav>
+        <a href="#agent">Agent Data</a>
+        <a href="#sa">SA Data</a>
+        <a href="#ga">GA Data</a>
+        <a href="#mga">MGA Data</a>
+    </nav>
+    <section id="agent" class="data-section">
+        <h2>Agent Data</h2>
+        <div id="agent-data-container"></div>
+    </section>
+    <section id="sa" class="data-section">
+        <h2>SA Data</h2>
+        <div id="sa-data-container"></div>
+    </section>
+    <section id="ga" class="data-section">
+        <h2>GA Data</h2>
+        <div id="ga-data-container"></div>
+    </section>
+    <section id="mga" class="data-section">
+        <h2>MGA Data</h2>
+        <div id="mga-data-container"></div>
+    </section>
+    <footer>
+        <p>&copy; 2024 KJ Vaughns. All rights reserved.</p>
+    </footer>
+    <script>
+        // Fetch and display data for each section
+        function fetchData(url, containerId) {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById(containerId);
+                    data.forEach(item => {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.innerHTML = `<p>${JSON.stringify(item)}</p>`; // Adjust based on your JSON structure
+                        container.appendChild(itemDiv);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        // Replace URLs with the actual paths to your JSON files
+        fetchData('agent_data.json', 'agent-data-container');
+        fetchData('sa_data.json', 'sa-data-container');
+        fetchData('ga_data.json', 'ga-data-container');
+        fetchData('mga_data.json', 'mga-data-container');
+    </script>
+</body>
+</html>
