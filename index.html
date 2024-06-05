@@ -116,10 +116,7 @@
                             td.textContent = row[header];
 
                             // Make specific cells editable
-                            if ((tableId === 'agent-table' && ((rowIndex === 3 && colIndex === 2) || (rowIndex === 11 && colIndex === 2) || (rowIndex === 24 && colIndex === 2) || (rowIndex === 25 && colIndex === 2))) ||
-                                (tableId === 'sa-table' && ((rowIndex === 3 && colIndex === 2) || (rowIndex === 11 && colIndex === 2) || (rowIndex === 24 && colIndex === 2) || (rowIndex === 25 && colIndex === 2))) ||
-                                (tableId === 'ga-table' && ((rowIndex === 3 && colIndex === 2) || (rowIndex === 11 && colIndex === 2) || (rowIndex === 24 && colIndex === 2) || (rowIndex === 25 && colIndex === 2))) ||
-                                (tableId === 'mga-table' && ((rowIndex === 3 && colIndex === 2) || (rowIndex === 11 && colIndex === 2) || (rowIndex === 24 && colIndex === 2) || (rowIndex === 25 && colIndex === 2)))) {
+                            if (['ALP', '1', '2'].includes(header)) {
                                 td.contentEditable = true;
                                 td.classList.add('editable');
                             }
@@ -140,3 +137,4 @@
     </script>
 </body>
 </html>
+
