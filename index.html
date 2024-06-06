@@ -130,7 +130,7 @@
                     td.textContent = row[header];
 
                     // Make specific cells editable
-                    if ((rowIndex === 3 && colIndex === 2) || (rowIndex === 11 && colIndex === 2) || (rowIndex === 24 && colIndex === 2) || (rowIndex === 25 && colIndex === 2)) {
+                    if (header === 'C' && [3, 11, 24, 25].includes(rowIndex)) {
                         td.contentEditable = true;
                         td.classList.add('editable');
                         td.addEventListener('input', () => updateCalculations(table));
@@ -179,5 +179,5 @@
             rows[13].cells[5].innerText = (C12 * C15 / 2).toFixed(2);
             rows[18].cells[5].innerText = (parseFloat(rows[3].cells[5].innerText) + parseFloat(rows[11].cells[5].innerText)).toFixed(2);
             rows[19].cells[5].innerText = (parseFloat(rows[4].cells[5].innerText) + parseFloat(rows[12].cells[5].innerText)).toFixed(2);
-            rows[20].cells[5].innerText = (parseFloat(rows[5].cells[5].innerText) + parseFloat(rows[13].cells[5].innerText)).toFixed(2);
-            rows[21].cells[5].innerText = (parseFloat(rows[18].cells[5].inner
+            rows[20].cells[5].innerText = (parseFloat(rows[5].cells[5].innerText) + parse
+
