@@ -77,19 +77,19 @@
     </nav>
     <section id="agent" class="data-section">
         <h2>Agent Data</h2>
-        <table id="agent-table"></table>
+        <table id="agent_data.json"></table>
     </section>
     <section id="sa" class="data-section">
         <h2>SA Data</h2>
-        <table id="sa-table"></table>
+        <table id="sa_data.json"></table>
     </section>
     <section id="ga" class="data-section">
         <h2>GA Data</h2>
-        <table id="ga-table"></table>
+        <table id="ga_data.json"></table>
     </section>
     <section id="mga" class="data-section">
         <h2>MGA Data</h2>
-        <table id="mga-table"></table>
+        <table id="mga_data.json"></table>
     </section>
     <footer>
         <p>&copy; 2024 KJ Vaughns. All rights reserved.</p>
@@ -98,6 +98,9 @@
         const fetchData = async (url, tableId) => {
             try {
                 const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const data = await response.json();
                 createTable(tableId, data);
             } catch (error) {
@@ -107,11 +110,12 @@
 
         const createTable = (tableId, data) => {
             const table = document.getElementById(tableId);
+            table.innerHTML = ''; // Clear the table before adding new data
             const headers = Object.keys(data[0]);
             const headerRow = document.createElement('tr');
             headers.forEach(header => {
                 const th = document.createElement('th');
-                th.textContent = header !== "Unnamed: 0" ? header : "";
+                th.textContent = header;
                 headerRow.appendChild(th);
             });
             table.appendChild(headerRow);
@@ -153,27 +157,26 @@
             const C15 = getValue(15, 2);
             const C16 = getValue(16, 2);
 
-            // Perform calculations for agent table
-            if (table.id === 'agent-table') {
-                rows[4].cells[5].innerText = (C4 * C5 * 0.65).toFixed(2);
-                rows[5].cells[5].innerText = (C4 ** C5 ** C6).toFixed(2);
-                rows[6].cells[5].innerText = (C4 * C7).toFixed(2);
-                rows[7].cells[5].innerText = (parseFloat(rows[4].cells[5].innerText) + parseFloat(rows[5].cells[5].innerText) + parseFloat(rows[6].cells[5].innerText)).toFixed(2);
-                rows[4].cells[8].innerText = (C4 ** C8 ** 10).toFixed(2);
-                rows[5].cells[8].innerText = (parseFloat(rows[4].cells[5].innerText) + parseFloat(rows[5].cells[5].innerText) + parseFloat(rows[6].cells[5].innerText) + parseFloat(rows[4].cells[8].innerText)).toFixed(2);
-                rows[6].cells[8].innerText = (parseFloat(rows[5].cells[8].innerText) / C4).toFixed(2);
-                rows[4].cells[9].innerText = (C4 * C8 * 20).toFixed(2);
-                rows[5].cells[9].innerText = (parseFloat(rows[4].cells[5].innerText) + parseFloat(rows[5].cells[5].innerText) + parseFloat(rows[6].cells[5].innerText) + parseFloat(rows[4].cells[9].innerText)).toFixed(2);
-                rows[6].cells[9].innerText = (parseFloat(rows[5].cells[9].innerText) / C4).toFixed(2);
-                rows[4].cells[11].innerText = (parseFloat(rows[5].cells[8].innerText) / 10).toFixed(2);
-                rows[4].cells[12].innerText = (parseFloat(rows[4].cells[11].innerText) / 12).toFixed(2);
+            // Perform calculations
+            rows[4].cells[5].innerText = (C4 * C5 * 0.65).toFixed(2);
+            rows[5].cells[5].innerText = (C4 ** C5 ** C6).toFixed(2);
+            rows[6].cells[5].innerText = (C4 * C7).toFixed(2);
+            rows[7].cells[5].innerText = (parseFloat(rows[4].cells[5].innerText) + parseFloat(rows[5].cells[5].innerText) + parseFloat(rows[6].cells[5].innerText)).toFixed(2);
+            rows[4].cells[8].innerText = (C4 ** C8 ** 10).toFixed(2);
+            rows[5].cells[8].innerText = (parseFloat(rows[4].cells[5].innerText) + parseFloat(rows[5].cells[5].innerText) + parseFloat(rows[6].cells[5].innerText) + parseFloat(rows[4].cells[8].innerText)).toFixed(2);
+            rows[6].cells[8].innerText = (parseFloat(rows[5].cells[8].innerText) / C4).toFixed(2);
+            rows[4].cells[9].innerText = (C4 * C8 * 20).toFixed(2);
+            rows[5].cells[9].innerText = (parseFloat(rows[4].cells[5].innerText) + parseFloat(rows[5].cells[5].innerText) + parseFloat(rows[6].cells[5].innerText) + parseFloat(rows[4].cells[9].innerText)).toFixed(2);
+            rows[6].cells[9].innerText = (parseFloat(rows[5].cells[9].innerText) / C4).toFixed(2);
+            rows[4].cells[11].innerText = (parseFloat(rows[5].cells[8].innerText) / 10).toFixed(2);
+            rows[4].cells[12].innerText = (parseFloat(rows[4].cells[11].innerText) / 12).toFixed(2);
 
-                rows[12].cells[5].innerText = (C12 * C13 * 0.65).toFixed(2);
-                rows[13].cells[5].innerText = (C12 ** C13 ** C14).toFixed(2);
-                rows[14].cells[5].innerText = (C12 * C15 / 2).toFixed(2);
-                rows[19].cells[5].innerText = (parseFloat(rows[4].cells[5].innerText) + parseFloat(rows[12].cells[5].innerText)).toFixed(2);
-                rows[20].cells[5].innerText = (parseFloat(rows[5].cells[5].innerText) + parseFloat(rows[13].cells[5].innerText)).toFixed(2);
-                rows[21].cells[5].innerText = (parseFloat(rows[6].cells[5].innerText) + parseFloat(rows[14].cells[5].innerText)).toFixed(2);
-                rows[22].cells[5].innerText = (parseFloat(rows[19].cells[5].innerText) + parseFloat(rows[20].cells[5].innerText) + parseFloat(rows[21].cells[5].innerText)).toFixed(2);
-                rows[12].cells[8].innerText = (C12 ** C16 ** 10).toFixed(2);
-                rows[13].cells[8].innerText = (parseFloat(rows[12].cells[5].
+            rows[12].cells[5].innerText = (C12 * C13 * 0.65).toFixed(2);
+            rows[13].cells[5].innerText = (C12 ** C13 ** C14).toFixed(2);
+            rows[14].cells[5].innerText = (C12 * C15 / 2).toFixed(2);
+            rows[19].cells[5].innerText = (parseFloat(rows[4].cells[5].innerText) + parseFloat(rows[12].cells[5].innerText)).toFixed(2);
+            rows[20].cells[5].innerText = (parseFloat(rows[5].cells[5].innerText) + parseFloat(rows[13].cells[5].innerText)).toFixed(2);
+            rows[21].cells[5].innerText = (parseFloat(rows[6].cells[5].innerText) + parseFloat(rows[14].cells[5].innerText)).toFixed(2);
+            rows[22].cells[5].innerText = (parseFloat(rows[19].cells[5].innerText) + parseFloat(rows[20].cells[5].innerText) + parseFloat(rows[21].cells[5].innerText)).toFixed(2);
+            rows[12].cells[8].innerText = (C12 ** C16 ** 10).toFixed(2);
+            rows[13].cells[8].innerText = (parseFloat(rows[12].cells[5].innerText
